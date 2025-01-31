@@ -1,0 +1,121 @@
+version: "3.8"
+
+services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "5800:5800"
+    env_file:
+      - ./api-gateway/.env
+    depends_on:
+      - mongo
+      - product-service
+      - user-service
+      - appointment-service
+      - payment-service
+      - admin-service
+      - security-service
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  product-service:
+    build:
+      context: ./product-service
+    ports:
+      - "5801:5801"
+    env_file:
+      - ./product-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  appointment-service:
+    build:
+      context: ./appointment-service
+    ports:
+      - "5802:5802"
+    env_file:
+      - ./appointment-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  payment-service:
+    build:
+      context: ./payment-service
+    ports:
+      - "5803:5803"
+    env_file:
+      - ./payment-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  admin-service:
+    build:
+      context: ./admin-service
+    ports:
+      - "5804:5804"
+    env_file:
+      - ./admin-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  security-service:
+    build:
+      context: ./security-service
+    ports:
+      - "5805:5805"
+    env_file:
+      - ./security-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  user-service:
+    build:
+      context: ./user-service
+    ports:
+      - "5806:5806"
+    env_file:
+      - ./user-service/.env
+    depends_on:
+      - mongo
+    networks:
+      - callmate-network
+    restart: unless-stopped
+
+  mongo:
+    image: mongo
+    container_name: shared-mongo
+    ports:
+      - "37017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - callmate-network
+    # healthcheck:
+    #   test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+
+volumes:
+  mongo-data:
+
+networks:
+  callmate-network:
+    driver: bridge

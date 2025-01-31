@@ -1,0 +1,61 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug API Gateway",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/api-gateway/app.js",
+      "envFile": "${workspaceFolder}/api-gateway/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Product Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/product-service/app.js",
+      "envFile": "${workspaceFolder}/product-service/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Appointment Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/appointment-service/app.js",
+      "envFile": "${workspaceFolder}/appointment-service/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Payment Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/payment-service/app.js",
+      "envFile": "${workspaceFolder}/payment-service/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Admin Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/admin-service/app.js",
+      "envFile": "${workspaceFolder}/admin-service/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Security Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/security-service/app.js",
+      "envFile": "${workspaceFolder}/security-service/.env"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug User Service",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/user-service/app.js",
+      "envFile": "${workspaceFolder}/user-service/.env"
+    }
+  ]
+}
