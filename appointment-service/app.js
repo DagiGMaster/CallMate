@@ -7,11 +7,10 @@ require("dotenv").config();
 const app = express();
 const appointmentRoutes = require("./routes/appointmentRoutes");
 // Middlewares
-app.use(cors());
 app.use(bodyParser.json());
 
 // API Routes
-app.use("/api/appiontments", appointmentRoutes);
+app.use("/api/appointments", appointmentRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI, {

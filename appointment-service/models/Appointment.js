@@ -3,10 +3,10 @@ const autoIncrement = require("mongoose-sequence")(mongoose);
 
 const AppointmentSchema = new mongoose.Schema({
   appointmentID: { type: Number, unique: true },
-  clientName: { type: String, required: true },
+  clientName: { type: String, required: false },
   phoneNumber: { type: String, required: true },
   appointmentDate: { type: Date, required: true },
-  service: { type: String, required: true },
+  service: { type: String, required: false },
   isDelted: { type: Boolean, required: false },
   isPayed: { type: Boolean, required: false },
 });

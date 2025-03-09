@@ -19,6 +19,38 @@ router.get("/get", async (req, res) => {
   }
 });
 
+router.get("/getNext14Days", async (req, res) => {
+  console.log("getNext14Days - HIT");
+
+  try {
+    let url = `${APPOINTMENT_SERVICE_URL}/api/appointments/getNext14Days`;
+    console.log("url", url);
+    const response = await axios.get(url);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error communicating with appointment service",
+      error: error.message,
+    });
+  }
+});
+
+// router.get("/getNext14Days", async (req, res) => {
+//   console.log("getNext14Days - HIT");
+
+//   try {
+//     let url = `${APPOINTMENT_SERVICE_URL}/api/appiontments/getNext14Days`;
+//     console.log("url", url);
+//     const response = await axios.get(url);
+//     res.json(response.data);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Error communicating with appiotments service",
+//       error: error.message,
+//     });
+//   }
+// });
+
 router.get("/find", async (req, res) => {
   try {
     const response = await axios.get(

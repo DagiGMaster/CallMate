@@ -1,4 +1,3 @@
-const appointmentService = require("../services/appointmentService");
 const Appointment = require("../models/Appointment");
 
 exports.createAppointment = async (req, res) => {
@@ -11,14 +10,14 @@ exports.createAppointment = async (req, res) => {
     isPayed,
   } = req.body;
   try {
-    const newAppointment = await appointmentService.createAppointment(
+    const newAppointment = await Appointment({
       clientName,
       phoneNumber,
       appointmentDate,
       service,
       isDeleted,
-      isPayed
-    );
+      isPayed,
+    });
     res.status(201).json(newAppointment);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -27,7 +26,7 @@ exports.createAppointment = async (req, res) => {
 
 exports.getAppointments = async (req, res) => {
   try {
-    const appointments = await appointmentService.getAppointments(req);
+    const appointments = await Appointment.find();
     if (!appointments || appointments.length === 0) {
       res.status(400).json("No Data");
     } else {
@@ -38,13 +37,48 @@ exports.getAppointments = async (req, res) => {
   }
 };
 
+exports.getAppointments_Next14Days = async (req, res) => {
+  try {
+    console.log("getAppointments_Next14Days - START!!");
+
+    const today = new Date();
+    console.log("Today:", today);
+
+    // Calculate the "next Friday" based on the current day
+    const dayOfWeek = today.getDay(); // Sunday = 0, Monday = 1, ..., Friday = 5, Saturday = 6
+    let nextFriday = new Date(today);
+
+    if (dayOfWeek === 6) {
+      // If today is Saturday, move to the next Sunday
+      nextFriday.setDate(today.getDate() + 6); // Skip to next Friday
+    } else if (dayOfWeek <= 5) {
+      // If today is Sunday to Friday, find the upcoming Friday
+      nextFriday.setDate(today.getDate() + (5 - dayOfWeek) + 7); // Move to the next Friday
+    }
+
+    console.log("Next Friday:", nextFriday);
+
+    const appointments = await Appointment.find({
+      appointmentDate: { $gte: today, $lte: nextFriday },
+      isDeleted: { $ne: false },
+    }).sort({ appointmentDate: 1 });
+
+    console.log("getAppointments_Next14Days - Appointments: ", appointments);
+    res.status(200).json(appointments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  } finally {
+    console.log("getAppointments_Next14Days - END!!");
+  }
+};
+
 exports.findAppointment = async (req, res) => {
   const { phoneNumber, appointmentDate } = req.query;
   try {
-    const appointment = await appointmentService.findAppointmentByPhoneAndDate(
+    const appointment = await Appointment.findOne({
       phoneNumber,
-      appointmentDate
-    );
+      appointmentDate,
+    });
     if (!appointment) {
       res.status(404).json({
         message: "No appointment found for this phone number and date",
