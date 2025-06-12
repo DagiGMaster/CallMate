@@ -10,7 +10,10 @@ exports.createAppointment = async (req, res) => {
     isPayed,
   } = req.body;
   try {
-    const newAppointment = await Appointment({
+    console.log("createAppointment - START!!");
+    console.log("Request Body:", req.body);
+
+    const newAppointment = new Appointment({  // Add 'new' keyword
       clientName,
       phoneNumber,
       appointmentDate,
@@ -18,8 +21,12 @@ exports.createAppointment = async (req, res) => {
       isDeleted,
       isPayed,
     });
+    await newAppointment.save();
+    console.log("New Appointment Created:", newAppointment);
+    console.log("createAppointment - END!!");
     res.status(201).json(newAppointment);
   } catch (error) {
+    console.error("Create appointment error:", error);
     res.status(500).json({ error: error.message });
   }
 };
